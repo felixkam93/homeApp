@@ -17,7 +17,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'chart.js'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -31,10 +32,10 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/livingRoom', {
-        templateUrl: 'views/livingRoom.html',
-        controller: 'LivingRoomCtrl',
-        controllerAs: 'livingRoom'
+      .when('/chartsOverview', {
+        templateUrl: 'views/chartsoverview.html',
+        controller: 'ChartsoverviewCtrl',
+        controllerAs: 'chartsOverview'
       })
       .otherwise({
         redirectTo: '/'

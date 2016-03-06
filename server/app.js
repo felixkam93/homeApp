@@ -5,8 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+//var routes = require('./routes/index');
+//var users = require('./routes/users');
 
 var app = express();
 
@@ -41,6 +41,7 @@ if (app.get('env') === 'development ') {
 
     // Error Handling
     app.use(function(err, req, res, next) {
+        console.log("error in dev:");
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -68,5 +69,13 @@ if (app.get('env') === 'production ') {
     });
 }
 
+
+var router = require('./router')(app);
+
+// Error Handling
+app.use(function(err, req, res, next) {
+    console.log("error in general");
+    res.status(err.status || 500);
+});
 
 module.exports = app;

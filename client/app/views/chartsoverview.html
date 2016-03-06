@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-lg-6">
+    <h1 class="text-center">
+      Temperature
+    </h1>
+    <canvas id="line" class="chart chart-line" chart-data="data"
+            chart-labels="labels" chart-legend="true" chart-series="series"
+            chart-click="onClick" >
+    </canvas>
+    <button ng-click="onRangeChange('yearly')">Yearly</button>
+    <button ng-click="onRangeChange('monthly')">Monthly</button>
+    <button ng-click="addSeries()">Add C</button>
+  </div>
+  <div class="col-lg-6">
+    <h1 class="text-center">
+      Humidity
+    </h1>
+  </div>
+</div>
+
+
