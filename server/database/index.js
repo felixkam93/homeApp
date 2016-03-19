@@ -9,9 +9,11 @@ var productionDb = '';
 var usedDb;
 var pool = {};
 
-
+console.log("process.env.NODE_ENV: \n" + process.env.NODE_ENV);
+console.log("process.env: \n" + JSON.stringify(process.env));
+//console.log(":\n" + JSON.stringify(NODE_ENV));
 // If we're in development...
-if (process.env.NODE_ENV === 'development ') {
+if (process.env.NODE_ENV === 'development') {
     // set our database to the development one
     console.log("building connection to db dev mode");
     usedDb = developmentDb;

@@ -9,6 +9,7 @@ var db = require('../../database');
 var climateSchema = {};
 
 climateSchema.get = function(req, callback){
+    console.log("entering climate get");
     console.log(req.query);
     var rowLimit = req.query.rowLimit;
     var rowOffset = req.query.rowOffset;

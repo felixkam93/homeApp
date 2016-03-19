@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "set NODE_ENV=production && nodemon ./bin/www",
-    "test": "set NODE_ENV=development && nodemon ./bin/www"
+    "start": "./start.sh",
+    "test": "./test.sh"
   },
   "dependencies": {
     "any-db-postgres": "^2.1.4",
