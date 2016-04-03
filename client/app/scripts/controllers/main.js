@@ -20,14 +20,7 @@ angular.module('clientApp')
       selectFilter.rowOffset = rowOffset;
       selectFilter = JSON.stringify(selectFilter);
 
-     /* $http.get('/climate/', {'rowLimit' : 10, 'rowOffset' : 0})
-        .success(function(data) {
-         // $scope.pythonCallSuccess = data;
-          console.log(data);
-        })
-        .error(function(error) {
-          console.log('Error: ' + JSON.stringify(error));
-        });*/
+
       $http({
         method : 'GET',
         url : '/climate',

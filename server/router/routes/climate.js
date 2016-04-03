@@ -1,12 +1,10 @@
-// Include Express
 var express = require('express');
-// Initialize the Router
 var router = express.Router();
-var db = require('../../database');
+//var db = require('../../database');
 var climate =  require('../../database/schema/climate');
 
-
 router.get('/', function(req, res){
+
     climate.get(req, function(err, resDB){
         if(err){
             console.log("Problem getting climate data due to " + err);
@@ -19,6 +17,4 @@ router.get('/', function(req, res){
         }
     });
 });
-
-// Expose the module
 module.exports = router;
