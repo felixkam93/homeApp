@@ -46,6 +46,25 @@ angular.module('clientApp')
     $scope.onClick = function (points, evt) {
       console.log(points, evt);
     };
+    $scope.getData = function(rowLimit, rowOffset){
+      var selectFilter = {};
+      selectFilter.rowLimit = rowLimit;
+      selectFilter.rowOffset = rowOffset;
+      selectFilter = JSON.stringify(selectFilter);
+
+
+      $http({
+        method : 'GET',
+        url : '/climate',
+        params: {'rowLimit':10, 'rowOffset':0}
+      }).success(function(data) {
+
+          //console.log(data);
+        })
+        .error(function(error) {
+          console.log('Error: ' + JSON.stringify(error));
+        });
+    };
 
 
 

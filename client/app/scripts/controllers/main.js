@@ -23,8 +23,8 @@ angular.module('clientApp')
 
       $http({
         method : 'GET',
-        url : '/climate',
-        params: {'rowLimit':10, 'rowOffset':0}
+        url : '/climate/day',
+        params: {'dayDate':'2016-03-29'}
       }).success(function(data) {
           // $scope.pythonCallSuccess = data;
           console.log(data);
