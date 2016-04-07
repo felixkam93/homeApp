@@ -3,50 +3,47 @@ var router = express.Router();
 //var db = require('../../database');
 var climate =  require('../../database/schema/climate');
 
-router.get('/', function(req, res){
+router.get('/', function(req, res, next){
 
     climate.get(req, function(err, resDB){
         if(err){
             console.log("Problem getting climate data due to " + err);
-            res.status(500).json({
-                'message': 'Database error trying to recieve data.'
-            });
+            next(err);
         }else{
-            console.log(resDB.rows);
-             res.status(201).json(resDB);
+            res.status(201).json(resDB);
         }
     });
 });
-router.get('/day', function(req, res){
-    var climateValues;
-    var timestamps;
-    climate.getDay(req, function(err, resClimateValues){
-        if(err){
-            console.log("Problem getting climate data due to " + err);
-            res.status(500).json({
-                'message': 'Database error trying to recieve data.'
-            });
-        }else{
-            console.log(this.resClimateValues);
-            climateValues = resClimateValues;
-            //res.status(201).json(resDB);
 
-        }
-    });
-    console.log(climateValues);
-    /*climate.getHoursOfDay(req, function(err, resTimestamps){
+var getClimateValuesForDay = function(req, res, next){
+    climate.getClimateValuesForDay(req, function(err, resClimateValues){
         if(err){
             console.log("Problem getting climate data due to " + err);
-            res.status(500).json({
-                'message': 'Database error trying to recieve data.'
-            });
+            next(err);
         }else{
-            console.log(resTimestamps);
-            timestamps = resTimestamps;
+            req.humidity = resClimateValues[1];
+            req.temperature = resClimateValues[0];
+            next();
         }
-    });*/
-    console.log(climateValues);
-    console.log(timestamps);
-    res.status(201).json(climateValues + timestamps);
+    });
+
+};
+var getHoursOfDay = function(req, res, next){
+    climate.getHoursOfDay(req, function(err, resTimestamps){
+        if(err){
+            console.log("Problem getting climate data due to " + err);
+            next(err);
+        }else{
+            req.timestamps = resTimestamps;
+            next();
+        }
+    });
+
+};
+
+router.get('/day',[getClimateValuesForDay, getHoursOfDay],function (req, res, next){
+    res.status(201).json([req.temperature, req.humidity, req.timestamps] );
+
 });
+
 module.exports = router;

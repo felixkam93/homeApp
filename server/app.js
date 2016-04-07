@@ -59,9 +59,9 @@ if (app.get('env').replace(/\s+/g, '') === 'production') {
 var router = require('./router')(app);
 
 // Error Handling
-app.use(function(err, req, res, next) {
+/*app.use(function(err, req, res, next) {
     console.log("error in general");
     res.status(err.status || 500);
-});
+});*/
 
 module.exports = app;

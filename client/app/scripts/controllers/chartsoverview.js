@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ChartsoverviewCtrl', function ($scope) {
+  .controller('ChartsoverviewCtrl', function ($scope,$http) {
     $scope.labelsMonth = ["Jan", "Feb", "March", "April", "May", "June", "July"];
     $scope.labelsYears = ["2016", "2017", "2018"];
     $scope.series = ['Series A', 'Series B'];
@@ -34,8 +34,7 @@ angular.module('clientApp')
           $scope.data=$scope.dataYears;
           break;
         case "monthly":
-          $scope.labels=$scope.labelsMonth;
-          $scope.data=$scope.dataMonth;
+          $scope.getData();
           break;
         default:
         $scope.data = [];
@@ -55,11 +54,13 @@ angular.module('clientApp')
 
       $http({
         method : 'GET',
-        url : '/climate',
-        params: {'rowLimit':10, 'rowOffset':0}
+        url : '/climate/day',
+        params: {'dayDate':'2016-03-29'}
       }).success(function(data) {
-
-          //console.log(data);
+          $scope.series=["Temperature", "Humidity"];
+          $scope.data = [data[0], data[1]];
+          $scope.labels=data[2];
+          console.log(data);
         })
         .error(function(error) {
           console.log('Error: ' + JSON.stringify(error));

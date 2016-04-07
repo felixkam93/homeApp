@@ -18,7 +18,7 @@ climateSchema.get = function(req, callback){
     });
 }
 
-climateSchema.getDay = function(req, callback){
+climateSchema.getClimateValuesForDay = function(req, callback){
     console.log("entering climate getDay");
     console.log(req.query);
     var dayDate = req.query.dayDate;
@@ -26,37 +26,38 @@ climateSchema.getDay = function(req, callback){
     var humidityValues = [];
     var resultClimaValues = {};
 
-    var resDB = db.clientPool.query("SELECT * FROM TEMPHUM WHERE date_trunc('day',timestamp) = $1", [dayDate]).on('data', function(row){
+   /* var resDB = db.clientPool.query("SELECT * FROM TEMPHUM WHERE date_trunc('day',timestamp) = $1", [dayDate]).on('data', function(row){
         console.log(row);
         console.log(req.query);
-    });
-    console.log(req.query);
+    });*/
     //SELECT DISTINCT date_trunc('hour',timestamp) FROM TEMPHUM WHERE date_trunc('day',timestamp) = '2016-03-29' ORDER BY date_trunc('hour',timestamp)
-    /*db.clientPool.query("SELECT * FROM TEMPHUM WHERE date_trunc('day',timestamp) = $1", [dayDate], function(err, resDB) {
+    db.clientPool.query("SELECT * FROM TEMPHUM WHERE date_trunc('day',timestamp) = $1", [dayDate], function(err, resDB) {
         resDB.rows.forEach(function(row, index) {
             console.log(row);
             if(row.temperature){
-                temperatureValues.push(row.temperature);
+                temperatureValues.push(parseFloat(row.temperature));
             }
             if(row.humidity){
-                humidityValues.push(row.humidity);
+                humidityValues.push(parseFloat(row.humidity));
             }
         });
-        console.log(temperatureValues);
+        console.log("temp value count: " + temperatureValues.length);
+        console.log("hum value count: " + humidityValues.length);
         resultClimaValues.temperatureValues = temperatureValues;
         resultClimaValues.humidtyValues = humidityValues;
+        console.log("resultclimaValues: \n" + resultClimaValues);
+        //resultClimaValues = JSON.stringify(resultClimaValues);
         console.log(resultClimaValues);
-        resultClimaValues = JSON.stringify(resultClimaValues);
-        return callback(err, resultClimaValues);
-    });*/
+        return callback(err, [temperatureValues, humidityValues]);
+    });
 
 
 }
 
 climateSchema.getHoursOfDay = function(req, callback){
     console.log("entering climate getHoursOfDay");
-    console.log(req.query);
     var dayDate = req.query.dayDate;
+    var timestampsObj = {};
     var truncedTimestamps = [];
     //SELECT DISTINCT date_trunc('hour',timestamp) FROM TEMPHUM WHERE date_trunc('day',timestamp) = '2016-03-29' ORDER BY date_trunc('hour',timestamp)
     db.clientPool.query("SELECT DISTINCT date_trunc('hour',timestamp) FROM TEMPHUM WHERE date_trunc('day',timestamp) = $1 ORDER BY date_trunc('hour',timestamp)", [dayDate], function(err, resDB) {
@@ -66,7 +67,8 @@ climateSchema.getHoursOfDay = function(req, callback){
                 truncedTimestamps.push(row.date_trunc);
             }
         });
-        truncedTimestamps = JSON.stringify(truncedTimestamps);
+        console.log("trunc_timestamps count:" + truncedTimestamps.length);
+        //truncedTimestamps = JSON.stringify(truncedTimestamps);
         return callback(err, truncedTimestamps);
     });
 }
