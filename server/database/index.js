@@ -4,8 +4,8 @@ var climateModel = require('./schema/climate')
 //var climate = climateModel.climateSchema;
 
 // Connections
-var developmentDb = 'postgres://postgres:abcd1234@192.168.1.6/postgres';
-var productionDb = 'postgres://postgres:abcd1234@192.168.1.6/postgres';
+var developmentDb = 'postgres://postgres:pw@host-ip/postgres';
+var productionDb = 'postgres://postgres:pw@host-ip/postgres';
 var usedDb;
 var pool = {};
 
